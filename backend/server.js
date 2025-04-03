@@ -39,6 +39,11 @@ app.get("/", (req, res) => {
   }
 });
 
+// Function to log latest location every 5 seconds (for debugging)
+setInterval(() => {
+  console.log("Latest Location:", latestLocation);
+}, 5000);
+
 // Socket.IO event handling
 io.on("connection", (socket) => {
   console.log("New client connected:", socket.id);
@@ -47,7 +52,7 @@ io.on("connection", (socket) => {
   socket.on("share-location", (data) => {
     console.log("Location shared:", data);
     latestLocation = data; // Update the latest location
-    // Broadcast location to other connected clients (optional)
+    console.log("Updated Latest Location:", latestLocation);
     socket.broadcast.emit("location-update", data);
   });
 
@@ -55,7 +60,7 @@ io.on("connection", (socket) => {
   socket.on("updateLocation", (data) => {
     console.log("Location updated:", data);
     latestLocation = data; // Update the latest location
-    // Broadcast updated location to other clients (optional)
+    console.log("Updated Latest Location:", latestLocation);
     socket.broadcast.emit("location-update", data);
   });
 
